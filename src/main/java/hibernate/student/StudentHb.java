@@ -1,12 +1,11 @@
 package hibernate.student;
 
 import hibernate.mark.MarksHb;
+import hibernate.movie.MovieHb;
 import hibernate.subject.SubjectHb;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 
 @Entity
@@ -18,17 +17,26 @@ public class StudentHb {
     @Column(name = "ID", nullable = false, unique = true)
     private int ID;
 
-    @Column
+    @Column()
     private String NAME;
     @Column
     private String LASTNAME;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name = "movie_student",
+            joinColumns = {@JoinColumn(name = "IDSTUDENT")},
+            inverseJoinColumns = {@JoinColumn(name ="IDMOVIE")})
+    private Set<MovieHb> movieHbSet = new HashSet<>();
+
+
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IDSTUDENT")
     private Collection<MarksHb> marksHbList = new ArrayList<>();
 
-    //TODO:  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ManyToMany
+
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST ,CascadeType.MERGE})
     @JoinTable(name = "subject_student",
             joinColumns = {@JoinColumn(name = "IDSTUDENT")},
             inverseJoinColumns = {@JoinColumn(name = "IDSUBJECT")})
@@ -36,14 +44,6 @@ public class StudentHb {
     private List<SubjectHb> subjectHbList = new ArrayList<>();
 
     public StudentHb() {
-    }
-
-    public List<SubjectHb> getSubjectHbList() {
-        return subjectHbList;
-    }
-
-    public void setSubjectHbList(List<SubjectHb> subjectHbList) {
-        this.subjectHbList = subjectHbList;
     }
 
     public int getID() {
@@ -76,6 +76,22 @@ public class StudentHb {
 
     public void setMarksHbList(Collection<MarksHb> marksHbList) {
         this.marksHbList = marksHbList;
+    }
+
+    public List<SubjectHb> getSubjectHbList() {
+        return subjectHbList;
+    }
+
+    public void setSubjectHbList(List<SubjectHb> subjectHbList) {
+        this.subjectHbList = subjectHbList;
+    }
+
+    public Set<MovieHb> getMovieHbSet() {
+        return movieHbSet;
+    }
+
+    public void setMovieHbSet(Set<MovieHb> movieHbSet) {
+        this.movieHbSet = movieHbSet;
     }
 
     @Override

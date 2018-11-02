@@ -1,9 +1,7 @@
 package hibernate;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.FlushModeType;
-import javax.persistence.Persistence;
+import javax.persistence.*;
+
 
 public class Hibernate {
 

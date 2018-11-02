@@ -17,13 +17,14 @@ public class SubjectHb {
     @Column
     private String NAME;
 
-    //todo @ManyToMany(fetch = FetchType.LAZY,mappedBy = "subjectHbList")
-    @ManyToMany(mappedBy = "subjectHbList")
+
+    @ManyToMany(mappedBy = "subjectHbList", cascade = CascadeType.MERGE)
     private List<StudentHb> studentHbList = new ArrayList<>();
 
     public SubjectHb() {
     }
 
+    @Transient
     public int getID() {
         return ID;
     }
@@ -38,6 +39,14 @@ public class SubjectHb {
 
     public void setNAME(String NAME) {
         this.NAME = NAME;
+    }
+
+    public List<StudentHb> getStudentHbList() {
+        return studentHbList;
+    }
+
+    public void setStudentHbList(List<StudentHb> studentHbList) {
+        this.studentHbList = studentHbList;
     }
 
     @Override

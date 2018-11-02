@@ -53,6 +53,7 @@ public class SubjectRepositoryHb extends AbstractRepositoryHb<SubjectHb> {
         EntityManager entityManager = this.hibernate.getEntityManager();
 
         try {
+
             entityManager.createQuery("DELETE SubjectHb WHERE ID =:idSubjectToRemove")
                     .setParameter("idSubjectToRemove", id)
                     .executeUpdate();
